@@ -21,12 +21,13 @@ class SemanticMatcher:
 
     def _extract_entities(self, text: str) -> dict:
         """
-        Extracts named entities to simulate 'Hard Skills', 'Experience', and 'Education'.
-        Since standard models don't have specific tags, we use proxies:
+        Extracts named entities:
         - Skills: ORG, PRODUCT, GPE, LANGUAGE (excluding education keywords)
-        - Experience: DATE
+        - Experience: Detailed bullet points describing work experience
         - Education: ORG entities containing education-related keywords
         """
+        import re
+        
         doc = self.nlp(text)
         entities = {
             "skills": [],
@@ -35,19 +36,54 @@ class SemanticMatcher:
         }
         
         education_keywords = {"university", "college", "school", "institute", "academy", "bachelor", "master", "phd", "degree"}
+        experience_keywords = {"engineered", "developed", "built", "created", "implemented", "designed", 
+                              "managed", "led", "architected", "reduced", "increased", "improved",
+                              "optimized", "deployed", "automated", "integrated", "processed"}
         
+        # Patterns to filter out
+        url_pattern = re.compile(r'https?://|www\.|\.com|\.org|\.io|linkedin|github|gmail')
+        email_pattern = re.compile(r'@|\[EMAIL REDACTED\]')
+        header_pattern = re.compile(r'^(Education|Experience|Projects|Skills|Summary|Contact)$', re.IGNORECASE)
+        
+        # Extract skills and education from NER
         for ent in doc.ents:
             text_lower = ent.text.lower()
-            if ent.label_ == "DATE":
-                entities["experience"].append(ent.text)
-            elif ent.label_ in ["ORG", "PRODUCT", "WORK_OF_ART", "GPE", "LANGUAGE"]:
-                # Simple heuristic to separate Education from generic ORG/Skills
+            if ent.label_ in ["ORG", "PRODUCT", "WORK_OF_ART", "GPE", "LANGUAGE"]:
                 if any(keyword in text_lower for keyword in education_keywords):
                     entities["education"].append(ent.text)
                 else:
                     entities["skills"].append(ent.text)
         
+        # Extract detailed experience bullet points
+        sentences = list(doc.sents)
+        for sent in sentences:
+            sent_text = sent.text.strip()
+            sent_lower = sent_text.lower()
+            
+            # Skip if contains URL, email, or is a header
+            if url_pattern.search(sent_text):
+                continue
+            if email_pattern.search(sent_text):
+                continue
+            if header_pattern.match(sent_text.strip()):
+                continue
+            
+            # Only include actual bullet points with action verbs
+            has_action_verb = any(keyword in sent_lower for keyword in experience_keywords)
+            starts_with_bullet = sent_text.startswith('•') or sent_text.startswith('-')
+            
+            if has_action_verb and len(sent_text) > 30:
+                # Clean up the text
+                clean_text = sent_text.lstrip('•-').strip()
+                entities["experience"].append(clean_text)
+        
+        # Remove duplicates
+        entities["skills"] = list(dict.fromkeys(entities["skills"]))
+        entities["experience"] = list(dict.fromkeys(entities["experience"]))
+        entities["education"] = list(dict.fromkeys(entities["education"]))
+        
         return entities
+
 
     def compute_similarity(self, text1: str, text2: str) -> float:
         """
@@ -106,7 +142,7 @@ class SemanticMatcher:
 
         return (0.4 * skills_sim) + (0.5 * exp_sim) + (0.1 * edu_sim)
 
-    def get_combined_score(self, job_description: str, resume_text: str) -> dict:
+    def get_final_score(self, job_description: str, resume_text: str) -> float:
         """
         Combines Cross-Encoder Score and Entity-Weighted Score for a final robust metric.
         """
@@ -120,56 +156,9 @@ class SemanticMatcher:
         # We give slight preference to the deep semantic textual match of the Cross-Encoder
         final_score = (0.6 * ce_score) + (0.4 * entity_score)
         
-        return {
-            "final_score": round(final_score, 4),
-            "cross_encoder_score": round(ce_score, 4),
-            "entity_score": round(entity_score, 4)
-        }
+        return final_score
 
-    def rank_candidates(self, job_description: str, resumes: list[str]) -> list[tuple[int, float, dict]]:
-        """
-        Two-stage ranking:
-        1. Bi-Encoder: Fast retrieval of top candidates (e.g., Top 10 or Top 20%).
-        2. Cross-Encoder + Entity Weighted: Detailed re-ranking of top candidates.
-        
-        Returns: List of (index, final_score, details_dict) sorted by score.
-        """
-        if not resumes:
-            return []
-
-        # -- Stage 1: Fast Filter (Bi-Encoder) --
-        
-        # Encode all resumes and JD
-        job_embedding = self.bi_encoder.encode(job_description, convert_to_tensor=True)
-        resume_embeddings = self.bi_encoder.encode(resumes, convert_to_tensor=True)
-        
-        # Compute Cosine Similarity
-        cosine_scores = util.cos_sim(job_embedding, resume_embeddings)[0]
-        
-        # Create initial ranked list (index, score)
-        initial_ranking = []
-        for i, score in enumerate(cosine_scores):
-            initial_ranking.append((i, float(score)))
-        
-        # Sort by cosine similarity descending
-        initial_ranking.sort(key=lambda x: x[1], reverse=True)
-        
-        # Keep top 10 (or all if less than 10) for expensive re-ranking
-        top_k = min(10, len(initial_ranking))
-        candidates_to_rerank = initial_ranking[:top_k]
-        
-        # -- Stage 2: Detailed Re-ranking --
-        final_results = []
-        
-        for idx, base_score in candidates_to_rerank:
-            resume_text = resumes[idx]
-            scores = self.get_combined_score(job_description, resume_text)
-            final_results.append((idx, scores["final_score"], scores))
-            
-        # Sort final results by the computed final score
-        final_results.sort(key=lambda x: x[1], reverse=True)
-        
-        return final_results
+    
 
 # Singleton instance
-matcher_instance = SemanticMatcher()
+semantics_instance = SemanticMatcher()

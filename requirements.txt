@@ -4,3 +4,5 @@ pydantic
 pdfplumber
 spacy
 sentence-transformers
+sqlmodel
+python-multipart
