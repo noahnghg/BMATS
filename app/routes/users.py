@@ -1,25 +1,47 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Form
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from app.services.resume import ResumeService
-from app.services.application import ApplicationService
+from app.services.users import UserService
 
 router = APIRouter(
-    prefix="/resumes",
-    tags=["resumes"]
+    prefix="/users",
+    tags=["users"]
 )
 
-@router.post("/upload")
-async def upload_and_store_resume(file: UploadFile = File(...)):
+class UploadResumeRequest(BaseModel):
+    user_id: str
+
+@router.post("/upload-resume")
+async def upload_and_store_resume(user_id: str = Form(...), file: UploadFile = File(...)):
     """
     Upload a resume (PDF) to be parsed, anonymized, and stored.
-    Returns the resume_id for later use when applying to jobs.
+    - If user doesn't exist, creates new user with extracted data
+    - If user exists, updates their data with new resume info
+    Returns the user with extracted skills, experience, education.
     """
-    extracted_text = ResumeService.NLP_pipeline(file)
-    return extracted_text
+    # Parse and extract data from resume
+    extracted_data = ResumeService.NLP_pipeline(file)
+    
+    # Convert lists to comma-separated strings for storage
+    skills_str = ", ".join(extracted_data.get("skills", []))
+    experience_str = " | ".join(extracted_data.get("experience", []))
+    education_str = ", ".join(extracted_data.get("education", []))
+    
+    # Create or update user
+    user = UserService.create_or_update_user(
+        user_id=user_id,
+        skills=skills_str,
+        experience=experience_str,
+        education=education_str
+    )
+    
+    return {
+        "user_id": user.id,
+        "skills": user.skills,
+        "experience": user.experience,
+        "education": user.education,
+        "message": "User profile created/updated successfully"
+    }
 
-
-
-
- 
 
