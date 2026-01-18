@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
+// The job list pane
 function Jobs({ currentUser }) {
     const [jobs, setJobs] = useState([])
     const [searchQuery, setSearchQuery] = useState('')

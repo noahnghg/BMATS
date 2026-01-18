@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+// profile pane
 function Profile({ currentUser, setCurrentUser }) {
     const [applications, setApplications] = useState([])
     const [expandedSections, setExpandedSections] = useState({

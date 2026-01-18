@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
+// The track posting pane
 function TrackPostings({ currentUser, isActive }) {
     const [postedJobs, setPostedJobs] = useState([])
     const [loading, setLoading] = useState(true)

@@ -1022,6 +1022,8 @@ aside {
     background: #2A2A2A;
     border-radius: var(--radius-lg);
     padding: var(--space-lg);
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .scoreSectionTitle {

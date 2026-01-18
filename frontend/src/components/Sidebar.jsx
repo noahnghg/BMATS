@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
 
+// The side bar pane with the logo,menu items and logout button
 function Sidebar({ onNavigate, activeIndex, onLogout, currentUser }) {
     const [showLogoutModal, setShowLogoutModal] = useState(false)
 

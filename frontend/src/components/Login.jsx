@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+// Login page
 function Login({ onLoginSuccess }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
