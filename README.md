@@ -1,4 +1,4 @@
-# HackTheBias Project
+# HackTheBias 2026 Project
 
 A FastAPI-based application designed to reduce hiring bias by parsing, anonymizing, and semantically matching resumes and job descriptions.
 
