@@ -48,6 +48,10 @@ function Sidebar({ onNavigate, activeIndex, onLogout, currentUser }) {
 
     return (
         <aside>
+            <div className="sidebarLogo">
+                <img src="/src/images/logo3.png" alt="HR Right Logo" />
+                <h3>BMATS</h3>
+            </div>
             <nav className="menuNav">
                 <ul className="mainNav">
                     {navItems.map((item, idx) => (

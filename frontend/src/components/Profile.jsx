@@ -136,6 +136,26 @@ function Profile({ currentUser, setCurrentUser }) {
                     </div>
                 )}
             </div>
+
+            {/* Upload Area - Below Profile Preview */}
+            {currentUser?.skills && (
+                <>
+                    <div className="uploadAreaLabel">Update Your Profile</div>
+                    <div className="uploadPrompt">
+                        <label className="uploadArea">
+                            <input
+                                type="file"
+                                accept=".pdf"
+                                style={{ display: 'none' }}
+                                onChange={handleFileUpload}
+                            />
+                            <i className="fa-solid fa-cloud-arrow-up"></i>
+                            <span>Upload a new resume to update your profile</span>
+                            <small>PDF files only</small>
+                        </label>
+                    </div>
+                </>
+            )}
         </div>
     )
 }

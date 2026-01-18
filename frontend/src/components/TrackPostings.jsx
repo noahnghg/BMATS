@@ -183,15 +183,42 @@ function TrackPostings({ currentUser, isActive }) {
                                 className="jobPostHeader"
                                 onClick={() => toggleJobExpanded(job.id)}
                             >
-                                <div className="jobPostInfo">
-                                    <h3 className="jobPostTitle">{job.title}</h3>
-                                    <p className="jobPostDesc">{job.company}</p>
-                                </div>
-                                <div className="jobPostStats">
-                                    <div className="appBadge">
-                                        <i className="fa-solid fa-users"></i>
-                                        <span>{job.applicationCount} Applications</span>
+                                {job.expanded ? (
+                                    <div className="jobPostInfo expanded">
+                                        <div className="jobPostTitleGroup">
+                                            <div>
+                                                <h3 className="jobPostTitle">{job.title}</h3>
+                                                <p className="jobPostCompany">{job.company}</p>
+                                            </div>
+                                            <div className="appBadge">
+                                                <i className="fa-solid fa-users"></i>
+                                                <span>{job.applicationCount} Applications</span>
+                                            </div>
+                                        </div>
+                                        <div className="jobDescriptionSection">
+                                            <h4 className="sectionLabel">Job Description</h4>
+                                            <p className="jobDescription">{job.description}</p>
+                                        </div>
+                                        <div className="jobRequirementsSection">
+                                            <h4 className="sectionLabel">Requirements</h4>
+                                            <p className="jobRequirements">{job.requirements}</p>
+                                        </div>
                                     </div>
+                                ) : (
+                                    <div className="jobPostInfo collapsed">
+                                        <div className="jobPostTitleGroup">
+                                            <div>
+                                                <h3 className="jobPostTitle">{job.title}</h3>
+                                                <p className="jobPostSubtitle">{job.company}</p>
+                                            </div>
+                                            <div className="appBadge">
+                                                <i className="fa-solid fa-users"></i>
+                                                <span>{job.applicationCount} Applications</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="jobPostStats">
                                     <i className={`fa-solid ${job.expanded ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
                                 </div>
                             </div>

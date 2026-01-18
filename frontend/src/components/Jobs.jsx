@@ -319,6 +319,7 @@ function Jobs({ currentUser }) {
                                     <div className="organization">{job.company}</div>
                                 </div>
                                 <div className="cardBody">
+                                    <div className="jobDescLabel">Job Description</div>
                                     <div className="jobDesc">{job.description}</div>
                                 </div>
                             </div>

@@ -83,6 +83,29 @@ aside {
     padding: var(--space-lg);
 }
 
+.sidebarLogo {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+}
+
+.sidebarLogo img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 30px;
+    
+}
+
+.sidebarLogo img:hover {
+    opacity: 1;
+}
+
+.sidebarLogo h3 {
+    color:#148F6F;
+}
+
 .profilebanner {
     display: flex;
     flex-direction: column;
@@ -254,6 +277,11 @@ aside {
     align-items: center;
     gap: var(--space-md);
     margin-bottom: var(--space-lg);
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    padding: var(--space-md) 0;
+    z-index: 10;
 }
 
 .addJobBtn {
@@ -384,14 +412,25 @@ aside {
     gap: var(--space-sm);
 }
 
+.jobDescLabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--success-green);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
 .jobDesc {
     font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.6;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
+    line-clamp: 5;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .requirements {
@@ -536,6 +575,8 @@ aside {
     background: linear-gradient(135deg, #148f6f, #148f6f);
     font-size: 13px;
     font-weight: 500;
+    border-radius: 20px;
+    color: white;
 }
 
 /* Experience Summary */
@@ -644,6 +685,18 @@ aside {
     font-size: 14px;
     color: var(--dark-navy);
     line-height: 1.4;
+}
+
+.uploadAreaLabel {
+    font-size: 14px;
+    color: var(--primary-blue);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    display: block;
 }
 
 .uploadPrompt {
@@ -1506,8 +1559,8 @@ aside {
 
 .jobPostHeader {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--space-md);
     padding: var(--space-lg);
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -1525,6 +1578,7 @@ aside {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
+    min-height: auto;
 }
 
 .jobPostInfo.expanded {
@@ -1533,12 +1587,15 @@ aside {
     gap: var(--space-md);
     max-height: 500px;
     overflow-y: auto;
+    padding-right: var(--space-sm);
 }
 
 .jobPostTitleGroup {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
 }
 
 .jobPostTitle {
@@ -1566,6 +1623,8 @@ aside {
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--border-color);
 }
 
 .sectionLabel {
@@ -1590,7 +1649,9 @@ aside {
 .jobPostStats {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: var(--space-lg);
+    align-self: flex-end;
 }
 
 .appBadge {
