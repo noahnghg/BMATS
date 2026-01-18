@@ -1,3 +1,5 @@
 venv
 *.db
 testfiles
+env
+__pycache__
