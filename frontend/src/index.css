@@ -1,12 +1,44 @@
+/* ==========================================
+   HackTheBias Design System
+   ========================================== */
+
+/* CSS Variables - Design Tokens */
 :root {
+    /* Primary Palette */
     --primary-blue: #3B82F6;
-    --secondary-blue: #1E293B;
+    --dark-navy: #1E293B;
     --success-green: #10B981;
     --warning-amber: #F59E0B;
     --alert-red: #EF4444;
+
+    /* Neutrals */
     --bg-color: #F8FAFC;
+    --card-bg: #FFFFFF;
+    --border-color: #E2E8F0;
+    --text-secondary: #64748B;
+    --profile-bg: #EFF6FF;
+
+    /* Typography */
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Spacing (8px grid) */
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Border Radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Reset & Base */
 * {
     margin: 0;
     padding: 0;
@@ -17,13 +49,20 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: var(--bg-color);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
+    font-size: 16px;
+    color: var(--dark-navy);
+    line-height: 1.5;
 }
 
 #root {
     width: 100%;
     height: 100%;
 }
+
+/* ==========================================
+   Layout
+   ========================================== */
 
 main {
     width: 100%;
@@ -32,20 +71,120 @@ main {
     flex-direction: row;
 }
 
+/* Sidebar */
 aside {
-    width: calc(15% - 20px);
-    height: calc(100% - 20px);
-    padding: 10px;
+    width: 240px;
+    min-width: 240px;
+    height: 100%;
+    background-color: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-lg);
+}
+
+.profilebanner {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: var(--space-md);
 }
 
+.bannerWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.bannerWrapper:hover {
+    background-color: var(--bg-color);
+}
+
+.userProfilePic {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary-blue), #60A5FA);
+    border-radius: 50%;
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+}
+
+.userName {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-navy);
+}
+
+/* Navigation */
+.menuNav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mainNav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.navItem {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.navItem:hover {
+    background-color: var(--bg-color);
+    color: var(--dark-navy);
+}
+
+.navItem.active {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.logOutBtn {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    border: 1px solid var(--alert-red);
+    color: var(--alert-red);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.logOutBtn:hover {
+    background-color: var(--alert-red);
+    color: white;
+}
+
+/* Main Content Area */
 .mainContentWrapper {
-    width: calc(85% - 20px);
-    height: calc(100% - 20px);
-    padding: 10px;
+    flex: 1;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -53,180 +192,1007 @@ aside {
     width: 300%;
     height: 100%;
     display: flex;
-    flex-direction: row;
     transition: transform 0.3s ease;
 }
 
 .route {
     width: 100%;
     height: 100%;
-    padding: 20px;
+    padding: var(--space-lg);
+    overflow-y: auto;
 }
 
-.profilebanner {
-    width: 80%;
-    height: 35%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+/* ==========================================
+   Screen 1: Jobs
+   ========================================== */
+
+.jobs.route {
+    background-color: var(--bg-color);
 }
 
-.bannerWrapper {
-    width: 85%;
-    height: 55%;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+.pageHeader {
+    margin-bottom: var(--space-lg);
 }
 
-.bannerWrapper:hover {
-    background-color: rgb(243, 242, 242);
+.pageTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-xs);
 }
 
-.userProfilePic {
-    width: 55px;
-    height: 55px;
-    background-color: grey;
-    border-radius: 55px;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+.pageSubtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
 }
 
-.menuNav {
-    width: 100%;
-    height: 75%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.8rem;
-}
-
-.mainNav {
-    width: 100%;
-    height: 55%;
-    text-decoration: none;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.navItem {
-    width: 80%;
-    height: 35px;
-    border-radius: 5px;
-    background-color: rgb(223, 221, 221);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.navItem:hover,
-.navItem.active {
-    background-color: var(--primary-blue);
-    color: white;
-}
-
-.logOutBtn {
-    width: 80%;
-    height: 35px;
-    border-radius: 5px;
-    background-color: var(--alert-red);
-    color: white;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-/* Jobs Page */
+/* Search */
 .searchForm {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-lg);
 }
 
 .searchForm input {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+    max-width: 500px;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-family: var(--font-family);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchForm input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.searchForm input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* Job Listings Grid */
+.joblistingsWrapper {
+    width: 100%;
 }
 
 .joblistings {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
 }
 
+/* Job Card */
 .jobcard {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.jobcard:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .cardHeader {
-    margin-bottom: 15px;
+    margin-bottom: var(--space-md);
 }
 
 .jobTitle {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--secondary-blue);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
 }
 
 .organization {
+    font-size: 14px;
     color: var(--primary-blue);
     font-weight: 500;
 }
 
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
 .jobDesc {
-    color: #666;
-    margin-bottom: 10px;
-    line-height: 1.5;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .requirements {
-    color: #888;
-    font-size: 0.9rem;
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border-color);
+}
+
+.applyBtn {
+    margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-lg);
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.applyBtn:hover {
+    background-color: #2563EB;
+}
+
+/* ==========================================
+   Screen 2: Profile
+   ========================================== */
+
+.profile.route {
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* Profile Preview Section - Top 1/3 */
+.profilePreview {
+    flex: 0 0 auto;
+    min-height: 33vh;
+    background: linear-gradient(135deg, var(--profile-bg), #DBEAFE);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+/* User Info Wrapper */
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* Collapsible Sections */
+.collapsibleSection {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sectionHeader:hover {
+    background-color: var(--bg-color);
+}
+
+.sectionHeader h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sectionHeader h3 i {
+    color: var(--primary-blue);
+}
+
+.sectionHeader>i {
+    color: var(--text-secondary);
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.sectionContent {
+    padding: 0 var(--space-md) var(--space-md);
+}
+
+.sectionContent p {
+    font-size: 14px;
+    color: var(--dark-navy);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.skillsSection,
+.experienceSection,
+.educationSection {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+}
+
+.skillsSection h3,
+.experienceSection h3,
+.educationSection h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.skillsSection h3 i,
+.experienceSection h3 i,
+.educationSection h3 i {
+    color: var(--primary-blue);
+}
+
+/* Skills Pills */
+.skillsPills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.skillPill {
+    display: inline-block;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, var(--primary-blue), #60A5FA);
+    color: white;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Experience Summary */
+.experienceText {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.educationSection p {
+    font-size: 14px;
+    color: var(--dark-navy);
+}
+
+/* Stats in userInfo */
+.userInfo .profileStats {
+    display: flex;
+    gap: var(--space-xl);
+    padding: var(--space-md);
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+}
+
+.profileCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-md);
+}
+
+.profileLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.profileInfo h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+}
+
+.profileEmail {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.profileStats {
+    display: flex;
+    gap: var(--space-xl);
+}
+
+.statItem {
+    text-align: center;
+}
+
+.statValue {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark-navy);
+}
+
+.statValue.success {
+    color: var(--success-green);
+}
+
+.statLabel {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.profileDetails {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+}
+
+.detailSection {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+}
+
+.detailSection h4 {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.detailSection h4 i {
+    color: var(--primary-blue);
+}
+
+.detailSection p {
+    font-size: 14px;
+    color: var(--dark-navy);
     line-height: 1.4;
 }
 
-.jobs route {
-    overflow-y: scroll;
+.uploadPrompt {
+    display: flex;
+    justify-content: center;
 }
 
-/* Profile Page */
-.profileSection h2 {
-    margin-bottom: 20px;
-    color: var(--secondary-blue);
+.uploadPrompt .uploadArea {
+    background: var(--card-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    width: 100%;
+    max-width: 400px;
+}
+
+.uploadPrompt .uploadArea:hover {
+    border-color: var(--primary-blue);
+}
+
+.uploadPrompt .uploadArea i {
+    font-size: 32px;
+    color: var(--primary-blue);
+}
+
+.uploadPrompt .uploadArea span {
+    font-size: 14px;
+    color: var(--dark-navy);
+}
+
+.uploadPrompt .uploadArea small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Applications Pane - Bottom 2/3 */
+.applicationsPane {
+    flex: 1;
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    overflow-y: auto;
+}
+
+.paneHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.paneHeader h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-navy);
+}
+
+.appCount {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.applicationsList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.appItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--bg-color);
+    transition: background-color 0.2s ease;
+}
+
+.appItem:hover {
+    background: var(--profile-bg);
+}
+
+.appInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.appJobTitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark-navy);
+}
+
+.appCompany {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.appScore {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.appScore.high {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-green);
+}
+
+.appScore.medium {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning-amber);
+}
+
+.appScore.low {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--alert-red);
+}
+
+.profileHeader {
+    background: linear-gradient(135deg, var(--profile-bg), #DBEAFE);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.profileAvatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-blue), #60A5FA);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+}
+
+.profileDetails h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+}
+
+.profileDetails p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Metrics */
+.metricsSection {
+    margin-bottom: var(--space-lg);
+}
+
+.sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-md);
 }
 
 .applicationMetricLists {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: var(--space-md);
 }
 
 .applicationMetric {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.metricValue {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+}
+
+.metricValue.success {
+    color: var(--success-green);
+}
+
+.metricValue.warning {
+    color: var(--warning-amber);
+}
+
+.metricValue.alert {
+    color: var(--alert-red);
+}
+
+.metricLabel {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Upload Section */
+.uploadSection {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.uploadArea {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.uploadArea:hover {
+    border-color: var(--primary-blue);
+    background-color: var(--profile-bg);
+}
+
+.uploadIcon {
+    font-size: 48px;
+    color: var(--primary-blue);
+    margin-bottom: var(--space-md);
+}
+
+.uploadText {
+    font-size: 16px;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-xs);
+}
+
+.uploadSubtext {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* ==========================================
+   Screen 3: Applications
+   ========================================== */
+
+.application.route {
+    display: flex;
+    gap: var(--space-lg);
+    background-color: var(--bg-color);
+}
+
+.applicationsList {
+    flex: 0.6;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.applicationCard {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.applicationCard:hover,
+.applicationCard.active {
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-blue);
+}
+
+.applicationJob {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+}
+
+.applicationCompany {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.applicationScore {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.applicationScore.high {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-green);
+}
+
+.applicationScore.medium {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning-amber);
+}
+
+.applicationScore.low {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--alert-red);
+}
+
+/* Score Details Panel */
+.scoreSection {
+    flex: 0.4;
+    background: #F1F5F9;
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.scoreSectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-lg);
+}
+
+.scoreBreakdown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.scoreItem {
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+}
+
+.scoreItemLabel {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.scoreItemValue {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-navy);
+}
+
+/* ==========================================
+   Popup Modal
+   ========================================== */
+
+.popupWrapper {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popupWrapper.active {
+    display: flex;
+}
+
+.popContent {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.popupClose {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--bg-color);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-secondary);
+    transition: background-color 0.2s ease;
+}
+
+.popupClose:hover {
+    background: var(--border-color);
+}
+
+/* ==========================================
+   Buttons
+   ========================================== */
+
+.btn {
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: var(--font-family);
+}
+
+.btn-primary {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2563EB;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+/* ==========================================
+   Empty States
+   ========================================== */
+
+.emptyState {
+    text-align: center;
+    padding: var(--space-xl);
+    color: var(--text-secondary);
+}
+
+.emptyState i {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+    color: var(--border-color);
+}
+
+.emptyState h3 {
+    font-size: 18px;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-xs);
+}
+
+.emptyState p {
+    font-size: 14px;
+}
+
+/* ==========================================
+   Sidebar Bottom
+   ========================================== */
+
+.sidebarBottom {
+    margin-top: auto;
+}
+
+.sidebarBottom .profilebanner {
+    border-bottom: none;
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--space-md);
+    margin-bottom: var(--space-sm);
+}
+
+/* ==========================================
+   Popup Content Styles
+   ========================================== */
+
+.popupHeader {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popupTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark-navy);
+    margin-bottom: 4px;
+}
+
+.popupCompany {
+    font-size: 16px;
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+.popupBody {
+    margin-bottom: var(--space-lg);
+}
+
+.popupBody h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-xs);
+}
+
+.popupBody p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+}
+
+.popupActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.useExistingSection h3,
+.uploadNewSection h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-navy);
+    margin-bottom: var(--space-sm);
+}
+
+.existingResumeBox {
+    border: 2px solid var(--primary-blue);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    background-color: var(--profile-bg);
+}
+
+.existingResumeBox:hover {
+    background-color: #DBEAFE;
+}
+
+.existingResumeBox i {
+    font-size: 24px;
+    color: var(--primary-blue);
+}
+
+.existingResumeBox span {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary-blue);
+}
+
+.uploadDropArea {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.uploadDropArea:hover {
+    border-color: var(--primary-blue);
+    background-color: var(--profile-bg);
+}
+
+.uploadDropArea i {
+    font-size: 32px;
+    color: var(--text-secondary);
+}
+
+.uploadDropArea span {
+    font-size: 14px;
+    color: var(--dark-navy);
+}
+
+.uploadDropArea small {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .joblistings {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .joblistings {
+        grid-template-columns: 1fr;
+    }
+
+    aside {
+        width: 60px;
+        min-width: 60px;
+    }
+
+    .userName,
+    .navItem span {
+        display: none;
+    }
 }

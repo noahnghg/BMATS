@@ -43,8 +43,23 @@ class ApplicationService:
         return add_application(stored_app)
 
     @staticmethod 
-    def get_applications_of_user(userId: str) -> List[Application]:
-        return get_applications_for_user(userId)
+    def get_applications_of_user(userId: str) -> List[dict]:
+        """Get applications with job details for a user."""
+        applications = get_applications_for_user(userId)
+        result = []
+        for app in applications:
+            job = get_job(app.job_id)
+            result.append({
+                "id": app.id,
+                "job_id": app.job_id,
+                "user_id": app.user_id,
+                "score": app.score,
+                "job_title": job.title if job else "Unknown",
+                "job_description": job.description if job else "",
+                "job_company": job.company if job else "Unknown",
+                "job_requirements": job.requirements if job else ""
+            })
+        return result
 
     @staticmethod 
     def calculate_final_score(job_string: str, user_data: str) -> float:

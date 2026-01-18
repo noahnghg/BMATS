@@ -44,4 +44,16 @@ async def upload_and_store_resume(user_id: str = Form(...), file: UploadFile = F
         "message": "User profile created/updated successfully"
     }
 
-
+@router.get("/{user_id}")
+async def get_user(user_id: str):
+    """Get user profile by ID."""
+    from fastapi import HTTPException
+    user = UserService.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return {
+        "id": user.id,
+        "skills": user.skills,
+        "experience": user.experience,
+        "education": user.education
+    }
