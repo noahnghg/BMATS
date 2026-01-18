@@ -12,6 +12,7 @@ class JobCreate(BaseModel):
 
 class Job(BaseModel):
     """Full job model including user_id"""
+    id: Optional[str] = None
     title: str
     user_id: str
     company: str
