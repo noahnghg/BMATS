@@ -119,10 +119,6 @@ class SemanticMatcher:
     def get_final_score(self, job_description: str, resume_text: str) -> float:
         """
         Computes the final match score using only the cross-encoder.
-        
-        The stsb-roberta-base model is trained on Semantic Textual Similarity Benchmark
-        and outputs scores directly in the 0-1 range.
-        
         Returns a score from 0 to 1.
         """
         # Cross-encoder directly outputs similarity score (0-1 range for stsb-roberta-base)

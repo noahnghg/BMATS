@@ -19,6 +19,11 @@ class Job(SQLModel, table=True):
     description: str
     company: str
     requirements: str
+    organization_url: Optional[str] = None
+    location: Optional[str] = None
+    date_posted: Optional[str] = None # Using string for simplicity in SQLite
+    salary: Optional[str] = None
+    source_id: Optional[str] = None # For tracking external jobs
 
 
 class Application(SQLModel, table=True):

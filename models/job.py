@@ -18,3 +18,10 @@ class Job(BaseModel):
     company: str
     description: str
     requirements: str
+    
+    # New fields for external API integration
+    organization_url: Optional[str] = None
+    location: Optional[str] = None
+    date_posted: Optional[datetime] = None
+    salary: Optional[str] = None
+    source_id: Optional[str] = None  # Original ID from external API
