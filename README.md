@@ -1,4 +1,4 @@
-# HackTheBias 2026 Project
+# BMATS: Bias Mitigation for Application Tracking System
 
 A FastAPI-based application designed to reduce hiring bias by parsing, anonymizing, and semantically matching resumes and job descriptions.
 
